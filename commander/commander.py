@@ -16,7 +16,10 @@ def welcome_msg():
     print("Type 'help' for CLI options...")
 
 def help_msg():
+    print("Current server: " + server)
     print("To create new task:  `new task`")
+    print("New task shortcut:   `t: host[ hosts...]: commands`")
+    print("Set server IP:       `set server http://0.0.0.0:5000")
     print("To view hosts:       `show hosts`")
     print("To quit:             `exit`")
 
@@ -101,9 +104,10 @@ def new_task(inp):
         hosts = ips.replace(",","").strip().split()
         command = command.strip()
         print("Host(s): " + str(hosts))
-        print("Command(s): " + commands)
+        print("Command: " + command)
         send_it(hosts, command, srv)
-    except:
+    except Exception as E:
+        print(E)
         print("Error in format: 't: host[ hosts...]: commands'")
 
 def big_loop(srv):
@@ -126,6 +130,13 @@ def big_loop(srv):
         elif inp[0:2] == "t:" and len(inp.split()) > 3:
             # We are doing a single line new task
             new_task(inp)
+        elif inp.startswith("set server "):
+            try:
+                _, _, srv = inp.split()[2]
+                global server
+                server = srv
+            except:
+                pass
         elif inp == "exit":
             return
         else:
