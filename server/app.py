@@ -85,15 +85,15 @@ def show_hosts():
         host_str += ln
     return host_str
 
-@app.route('/api/resource/calls-log')
+@app.route('/api/commanders/calls')
 def show_call_log():
     with open("/tmp/cc/calls.log", 'r') as f:
         s = f.read()
         return s
 
-@app.route('/api/resource/actions-log')
+@app.route('/api/commander/tasks')
 def show_call_log():
-    with open("/tmp/cc/actions.log", 'r') as f:
+    with open("/tmp/cc/tasks.log", 'r') as f:
         s = f.read()
         return s
 
