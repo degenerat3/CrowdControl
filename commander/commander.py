@@ -94,7 +94,17 @@ def new_task_loop(srv):
             print("Unknown command: " + inp)
 
 
-
+def new_task(inp):
+    # t: 8.8.8.8 8.8.8.8 8.8.8.8: echo hi
+    try:
+        _, ips, command = inp.split(":", 2)
+        hosts = ips.replace(",","").strip().split()
+        command = command.strip()
+        print("Host(s): " + str(hosts))
+        print("Command(s): " + commands)
+        send_it(hosts, command, srv)
+    except:
+        print("Error in format: 't: host[ hosts...]: commands'")
 
 def big_loop(srv):
     while True:
@@ -113,6 +123,9 @@ def big_loop(srv):
                 print("Unknown Command: " + inp)
         elif inp == "new task":
             new_task_loop(srv)
+        elif inp[0:2] == "t:" and len(inp.split()) > 3:
+            # We are doing a single line new task
+            new_task(inp)
         elif inp == "exit":
             return
         else:

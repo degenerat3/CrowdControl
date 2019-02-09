@@ -34,9 +34,9 @@ def process_callbacks(host, typ):
         with open(com_file, 'r') as f:
             c = f.read()
             os.remove(com_file)
-            return c
+            return c + "\n"
     else:
-        return "#lmao" 
+        return "#lmao\n" 
 
 
 @app.route('/api/commander/push', methods=['POST'])
