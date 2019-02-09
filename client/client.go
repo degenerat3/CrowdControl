@@ -15,6 +15,7 @@ import (
 )
 
 var serv = "127.0.0.1:5000" //IP of flask serv
+var src = "bin"             // where is this calling back from
 var loopTime = 10           //sleep time in secs
 
 // get hostname and return it as a string
