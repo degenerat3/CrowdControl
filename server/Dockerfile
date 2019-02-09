@@ -1,17 +1,16 @@
-FROM ubuntu:16.04
+FROM alpine:latest
 
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev
+RUN apk add --update  python3-pip python3 
 
 COPY ./requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 COPY . /app
 
-ENTRYPOINT [ "python" ]
+ENTRYPOINT [ "python3" ]
 
 CMD [ "app.py" ]
 
