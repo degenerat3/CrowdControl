@@ -51,6 +51,10 @@ def show_recent(minutes=10):
     content = show_calls()
     data = {}
     for line in reversed(content.split("\n")):
+        line = line.strip()
+        # Skip empty lines
+        if not line:
+            continue
         # Get the data from the logfile
         date, time, ip, source = line.strip().split()
         # Find the time delta

