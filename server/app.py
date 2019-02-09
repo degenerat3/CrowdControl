@@ -39,7 +39,7 @@ def process_callbacks(host, typ):
         return "#lmao" 
 
 
-@app.route('/api/commander/push')
+@app.route('/api/commander/push', methods=['POST'])
 def proc_inc_coms():
     content = request.json 
     host_str = content['hosts']
