@@ -28,7 +28,6 @@ def process_callbacks(host, typ):
         with open("/tmp/cc/calls.log", 'w') as f:
             s = "{0:<25} {1:<16} {2:<10}\n".format(call_time, ip, src)
             f.write(s)
-
     com_file = "/tmp/cc/hosts/" + ip
     if os.path.isfile(com_file):
         with open(com_file, 'r') as f:
@@ -39,12 +38,19 @@ def process_callbacks(host, typ):
         return "#lmao\n" 
 
 
+def log_action(hosts, cmds):
+    action_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    log_str = action_time + " : " + hosts.replace("|", " ") + " : " + cmds
+    with open("/tmp/cc/actions.log", 'a') as f:
+        f.write(log_str)
+
 @app.route('/api/commander/push', methods=['POST'])
 def proc_inc_coms():
     content = request.json 
     host_str = content['hosts']
     coms = content['commands']
     hosts = host_str.split('|')
+    log_action(host_str, coms)
     for h in hosts:
         com_file = "/tmp/cc/hosts/" + h
         if os.path.isfile(com_file):

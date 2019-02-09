@@ -12,7 +12,7 @@ RUN pip3 install -r requirements.txt
 COPY . /app
 
 RUN mkdir -p /tmp/cc/hosts
-RUN touch /tmp/cc/calls.log
+RUN touch /tmp/cc/calls.log /tmp/cc/actions.log
 
 ENTRYPOINT [ "python3" ]
 
