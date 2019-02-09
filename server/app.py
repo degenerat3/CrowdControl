@@ -85,6 +85,18 @@ def show_hosts():
         host_str += ln
     return host_str
 
+@app.route('/api/resource/call-log')
+def show_call_log():
+    with open("/tmp/cc/calls.log", 'r') as f:
+        s = f.read()
+        return s
+
+@app.route('/api/resource/actions-log')
+def show_call_log():
+    with open("/tmp/cc/actions.log", 'r') as f:
+        s = f.read()
+        return s
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
