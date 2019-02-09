@@ -61,8 +61,8 @@ def parse(filename):
     for line in reversed(list(open(filename))):
         date, time, ip, source = line.strip().split()
         log_time = datetime.datetime.strptime(date +" "+time, '%Y-%m-%d %H:%M:%S')
-        diff = (datetime.datetime.now() - log_time)/60
-        if diff > 10:
+        diff = datetime.datetime.now() - log_time
+        if diff.seconds > 600:
             break
         if ip not in data:
             data[ip] = set()
