@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --update  python3-pip python3 
+RUN apk add --update  python3 
 
 COPY ./requirements.txt /app/requirements.txt
 
