@@ -53,7 +53,7 @@ def proc_inc_coms():
         else:
             with open(com_file, 'w') as f:
                 f.write(coms)
-    return
+    return ""
 
 
 def parse(filename):
