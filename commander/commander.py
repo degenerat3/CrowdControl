@@ -32,15 +32,25 @@ def parse_commands(inp):
 
 
 def task_help():
-    print("To create new task:  `new task`")
     print("To view hosts:       `show hosts`")
     print("To view task info:   `show task`")
     print("To launch the task:  `launch`")
     print("To quit:             `exit`")
+    return
 
-def send_it(hosts, commands):
+
+def send_it(hosts, commands, srv):
     print("launching: " + commands)
     print("to: " + str(hosts))
+    u = srv + "/api/commander/push" 
+    ha = hosts.split(",")
+    hs = ""
+    for h in ha:
+        hs += h + "|"
+    hs = hs[:-1]
+    jdata = {"hosts": hs, "commands": commands}
+    r = requests.post(u, json=jdata)
+    return
 
 def new_task_loop(srv):
     hosts = ""
@@ -74,7 +84,7 @@ def new_task_loop(srv):
             elif commands == "":
                 print("target commands undefined...")
             else:
-                send_it(hosts, commands)
+                send_it(hosts, commands, srv)
                 return
         elif inp == "exit":
             return
