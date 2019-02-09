@@ -12,11 +12,15 @@ import datetime
 
 app = Flask(__name__)
 
+all_hosts = set()
+
 
 @app.route('/api/callback/<host>/<typ>')
 def process_callbacks(host, typ):
     
     ip = host.replace("-", ".")
+    global all_hosts
+    all_hosts.add(ip)
     src = typ
     call_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
@@ -40,7 +44,7 @@ def process_callbacks(host, typ):
 
 def log_action(hosts, cmds):
     action_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    log_str = action_time + " : " + hosts.replace("|", " ") + " : " + cmds
+    log_str = action_time + " : " + str(hosts) + " : " + cmds
     with open("/tmp/cc/actions.log", 'a') as f:
         f.write(log_str)
 
@@ -49,8 +53,12 @@ def proc_inc_coms():
     content = request.json 
     host_str = content['hosts']
     coms = content['commands']
-    hosts = host_str.split('|')
-    log_action(host_str, coms)
+    if host_str.strip() == "all":    
+        hosts = list(all_hosts)
+    else:
+        hosts = host_str.split('|')
+
+    log_action(hosts, coms)
     for h in hosts:
         com_file = "/tmp/cc/hosts/" + h
         if os.path.isfile(com_file):
