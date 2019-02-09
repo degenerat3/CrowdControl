@@ -25,7 +25,7 @@ def process_callbacks(host, typ):
             s = "{0:<25} {1:<16} {2:<10}\n".format(call_time, ip, src)
             f.write(s)
     else:
-        with open("/tmp/cc/calls.log", 'w'):
+        with open("/tmp/cc/calls.log", 'w') as f:
             s = "{0:<25} {1:<16} {2:<10}\n".format(call_time, ip, src)
             f.write(s)
 
