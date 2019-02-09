@@ -93,7 +93,7 @@ def show_hosts():
         host_str += ln
     return host_str
 
-@app.route('/api/commanders/calls')
+@app.route('/api/commander/calls')
 def show_call_log():
     with open("/tmp/cc/calls.log", 'r') as f:
         s = f.read()
