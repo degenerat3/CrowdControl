@@ -14,9 +14,9 @@ app = Flask(__name__)
 all_hosts = set()
 
 
-@app.route('/api/callback/<host>/<typ>')
-def process_callbacks(host, typ):
-    ip = host.replace("-", ".")
+@app.route('/<ip>/<typ>')
+@app.route('/api/callback/<ip>/<typ>')
+def process_callbacks(ip, typ):
     global all_hosts
     all_hosts.add(ip)
     src = typ
