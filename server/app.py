@@ -1,6 +1,5 @@
 """
-Process POST/GET requests from clients/commander, distribute commands and keep 
-track of bot callbacks
+Process POST/GET requests from clients/commander, distribute commands and keep track of bot callbacks
 @author: degenerat3
 """
 
