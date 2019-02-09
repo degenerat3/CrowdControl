@@ -34,6 +34,8 @@ def parse_commands(inp):
 def task_help():
     print("To view hosts:       `show hosts`")
     print("To view task info:   `show task`")
+    print("To add hosts:        `set host = [8.8.8.8]`")
+    print("To add commands:     `set command = \"whoami\"`")
     print("To launch the task:  `launch`")
     print("To quit:             `exit`")
     return
@@ -43,9 +45,9 @@ def send_it(hosts, commands, srv):
     print("launching: " + commands)
     print("to: " + str(hosts))
     u = srv + "/api/commander/push" 
-    ha = hosts.split(",")
     hs = ""
-    for h in ha:
+
+    for h in hosts:
         hs += h + "|"
     hs = hs[:-1]
     jdata = {"hosts": hs, "commands": commands}
@@ -56,7 +58,7 @@ def new_task_loop(srv):
     hosts = ""
     commands = ""
     while True:
-        inp = input('Commander(TASK)>')
+        inp = input('Commander(TASK)> ')
         if "set" in inp:
             if "host" in inp:
                 hosts = parse_hosts(inp)
