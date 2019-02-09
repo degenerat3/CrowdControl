@@ -44,7 +44,7 @@ def process_callbacks(host, typ):
 
 def log_action(hosts, cmds):
     action_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    log_str = action_time + " : " + str(hosts) + " : " + cmds
+    log_str = action_time + " : " + str(hosts) + " : " + cmds + "\n"
     with open("/tmp/cc/tasks.log", 'a') as f:
         f.write(log_str)
 
