@@ -13,9 +13,9 @@ import (
 	"os/exec"
 )
 
-var serv = "127.0.0.1:5000" //IP of flask serv
-var src = "GoBin"           // where is this calling back from
-var loopTime = 10           //sleep time in secs
+var serv = "192.168.58.132:5000" //IP of flask serv
+var src = "GoBin"                // where is this calling back from
+var loopTime = 10                //sleep time in secs
 
 // get hostname and return it as a string
 func getHn() string {
