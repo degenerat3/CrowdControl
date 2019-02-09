@@ -105,7 +105,7 @@ def new_task(inp):
         command = command.strip()
         print("Host(s): " + str(hosts))
         print("Command: " + command)
-        send_it(hosts, command, srv)
+        send_it(hosts, command, server)
     except Exception as E:
         print(E)
         print("Error in format: 't: host[ hosts...]: commands'")
