@@ -100,7 +100,7 @@ def show_call_log():
         return s
 
 @app.route('/api/commander/tasks')
-def show_call_log():
+def show_action_log():
     with open("/tmp/cc/tasks.log", 'r') as f:
         s = f.read()
         return s
