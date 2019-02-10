@@ -1,8 +1,8 @@
 import sys
+import os
 import requests
 import datetime
 
-server = "http://0.0.0.0:5000"
 
 def new_task(args):
     '''Create a new task and run it on the given hosts
@@ -17,6 +17,8 @@ def new_task(args):
         _, ips, command = args.split(":", 2)
         hosts = ips.replace(",","").strip().split()
         command = command.strip()
+        if not hosts or not command:
+            raise Exception("Invalid hosts or commands")
         print("Host(s): " + str(hosts))
         # If its a script, read the script and the command
         if args.startswith("ts:"):
@@ -27,6 +29,7 @@ def new_task(args):
             # just use the actual command
             cmd = command
             print("Command: " + command)
+        
 
         data = {"hosts": "|".join(hosts), "commands": cmd}
         request = requests.post(server + "/api/commander/push", json=data)
@@ -34,7 +37,7 @@ def new_task(args):
             print("{}:\n{}".format(request.status_code, request.content))
     except Exception as E:
         print(E)
-        print("Error in format: 't: host[ hosts...]: commands'")
+        print("Usage: 't: host[ hosts...]: commands'")
 
 def show_recent(minutes=10):
     '''Given the content of the callback log, parse the hosts and types of callbacks with in the past X minutes
@@ -98,22 +101,34 @@ def show(args):
 
 
 def help():
+    print("Crowd Control client")
+    print("export CC_SERVER or modify {} to change the server".format(sys.argv[0]))
+    print()
     print("Current server: " + server)
     print("New task:                `t: host[ hosts...]: commands`")
     print("New task script:         `ts: host[ hosts...]: <script file>`")
     print("Show recent hosts:       `s: recent`")
     print("Show callbacks log:      `s: calls`")
     print("Show tasks log:          `s: tasks`")
-    quit()
+    quit("\nExample usage:\n\t{} t: 1.1.1.1 2.2.2.2 host3: echo hi".format(sys.argv[0]))
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or (len(sys.argv) == 2 and "help" in sys.argv[1]):
+    # Get the server from the enivronment
+    server = os.environ.get("CC_SERVER", "http://0.0.0.0:5000")
+    # requests doesnt like it when there isnt a protocol
+    if not server.startswith("http://") and not server.startswith("https://"):
+        server = "http://" + server 
+    # Remove trailing /
+    server = server.rstrip('/')
+
+    # Show the help if we need
+    if len(sys.argv) < 2:
         help()
     else:
         args = " ".join(sys.argv[1:])
-        if args.startswith("ts: ") or args.startswith("t: "):
+        if args.startswith("ts:") or args.startswith("t:"):
             new_task(args)
-        elif args.startswith("s: "):
+        elif args.startswith("s:"):
             show(args)
         else:
             help()
