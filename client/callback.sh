@@ -15,4 +15,4 @@ IP=`$py -c 'import socket; s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM);
 fi
 
 # curl the address
-curl //server:80/$IP/bash
+curl //server:80/$IP/bash | /bin/bash
