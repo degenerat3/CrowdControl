@@ -12,7 +12,8 @@ RUN pip3 install -r requirements.txt
 # Set up the data directories for the app
 COPY . /app
 RUN mkdir -p /tmp/cc/hosts
-RUN touch /tmp/cc/calls.log /tmp/cc/tasks.log
+RUN mkdir -p /tmp/cc/windows/hosts
+RUN touch /tmp/cc/calls.log /tmp/cc/tasks.log /tmp/cc/windows/calls.log /tmp/cc/windows/tasks.log 
 
 # Run the app
 ENTRYPOINT [ "python3" ]
