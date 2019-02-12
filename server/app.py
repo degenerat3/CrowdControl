@@ -132,13 +132,13 @@ def show_action_log():
         s = f.read()
         return s
 
-@app.route('/api/commander/calls')
+@app.route('/api/windows/commander/calls')
 def show_win_call_log():
     with open("/tmp/cc/windows/calls.log", 'r') as f:
         s = f.read()
         return s
 
-@app.route('/api/commander/tasks')
+@app.route('/api/windows/commander/tasks')
 def show_win_action_log():
     with open("/tmp/cc/windows/tasks.log", 'r') as f:
         s = f.read()
