@@ -15,7 +15,11 @@ def new_task(args):
     '''
     try:
         _, ips, command = args.split(":", 2)
-        hosts = ips.replace(",","").strip().split()
+        if args.startswith("th:"):
+            with open(ips) as ipf:
+                hs = ipf.readlines()
+        else: 
+            hosts = ips.replace(",","").strip().split()
         command = command.strip()
         if not hosts or not command:
             raise Exception("Invalid hosts or commands")
