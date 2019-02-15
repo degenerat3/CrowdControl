@@ -111,6 +111,7 @@ def help():
     print("Current server: " + server)
     print("New task:                `t: host[ hosts...]: commands`")
     print("New task script:         `ts: host[ hosts...]: <script file>`")
+    print("New task for IP file:    `th: <ip file>: commands`")
     print("Show recent hosts:       `s: recent`")
     print("Show callbacks log:      `s: calls`")
     print("Show tasks log:          `s: tasks`")
