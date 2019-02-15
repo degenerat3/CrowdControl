@@ -18,6 +18,9 @@ def new_task(args):
         if args.startswith("th:"):
             with open(ips) as ipf:
                 hs = ipf.readlines()
+                for each h in hs:
+                    h = h.strip()
+                hosts = hs
         else: 
             hosts = ips.replace(",","").strip().split()
         command = command.strip()
