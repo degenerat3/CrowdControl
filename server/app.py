@@ -3,9 +3,9 @@ Process POST/GET requests from clients/commander, distribute commands and keep t
 @author: degenerat3
 """
 
-from flask import Flask, request
 import datetime
 import os
+from flask import Flask, request
 
 
 
@@ -146,6 +146,8 @@ def show_win_action_log():
 
 
 if __name__ == '__main__':
+    host = os.environ.get("FLASK_HOST", "0.0.0.0")
+    port = os.environ.get("FLASK_PORT", "5000")
     app.run(debug=True, host='0.0.0.0')
 
 
