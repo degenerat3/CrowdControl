@@ -15,7 +15,7 @@ def new_task(args):
     '''
     try:
         _, ips, command = args.split(":", 2)
-        if args.startswith("th:"):
+        if os.path.isfile(ips):
             with open(ips) as ipf:
                 hs = ipf.readlines()
                 for each h in hs:
@@ -112,9 +112,8 @@ def help():
     print("export CC_SERVER or modify {} to change the server".format(sys.argv[0]))
     print()
     print("Current server: " + server)
-    print("New task:                `t: host[ hosts...]: commands`")
+    print("New task:                `t: <hosts|hosts.txt>: commands`")
     print("New task script:         `ts: host[ hosts...]: <script file>`")
-    print("New task for IP file:    `th: <ip file>: commands`")
     print("Show recent hosts:       `s: recent`")
     print("Show callbacks log:      `s: calls`")
     print("Show tasks log:          `s: tasks`")
