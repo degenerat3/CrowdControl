@@ -18,7 +18,7 @@ def new_task(args):
         if os.path.isfile(ips):
             with open(ips) as ipf:
                 hs = ipf.readlines()
-                for each h in hs:
+                for h in hs:
                     h = h.strip()
                 hosts = hs
         else: 
