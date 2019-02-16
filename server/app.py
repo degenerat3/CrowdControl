@@ -35,8 +35,9 @@ def process_callbacks(ip, typ):
         with open(com_file, 'r') as f:
             c = f.read()
             os.remove(com_file)
+            updatePwnboard(ip, typ)
             return c + "\n"
-    updatePwnboard(ip, typ)
+    
     else:
         return "#lmao\n" 
 
