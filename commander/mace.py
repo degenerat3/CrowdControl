@@ -22,6 +22,7 @@ def new_task(args):
                 hs = ipf.readlines()
                 for h in hs:
                     h = h.rstrip()
+                    new.append(h)
                 hosts = new
         else: 
             hosts = ips.replace(",","").strip().split()
