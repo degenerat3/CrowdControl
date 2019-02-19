@@ -2,6 +2,7 @@ import sys
 import os
 import requests
 import datetime
+import json
 
 
 def new_task(args):
@@ -15,12 +16,13 @@ def new_task(args):
     '''
     try:
         _, ips, command = args.split(":", 2)
-        if os.path.isfile(ips):
-            with open(ips) as ipf:
+        if os.path.isfile(ips.strip()):
+            with open(ips.strip()) as ipf:
+                new = []
                 hs = ipf.readlines()
                 for h in hs:
-                    h = h.strip()
-                hosts = hs
+                    h = h.rstrip()
+                hosts = new
         else: 
             hosts = ips.replace(",","").strip().split()
         command = command.strip()
@@ -37,9 +39,9 @@ def new_task(args):
             cmd = command
             print("Command: " + command)
         
-
+        header = {'Content-type': 'application/json'}
         data = {"hosts": "|".join(hosts), "commands": cmd}
-        request = requests.post(server + "/api/commander/push", json=data)
+        request = requests.post(server + "/api/commander/push", headers=header, data=json.dumps(data))
         if request.status_code != 200:
             print("{}:\n{}".format(request.status_code, request.content))
     except Exception as E:
