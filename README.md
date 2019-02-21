@@ -6,7 +6,7 @@ The server is a docker container that's running alpine linux with flask.  All th
 
 #### Endpoints
 The server has the following endpoints:
- - `'/\<ip>/\<typ>' or '/api/callback/\<ip>/\<typ>'` - these are the endpoints the clients will hit in order to receive their commands.  The former is preferred, as the latter will soon be phased out.  The "\<ip>" is the ip of the client that's calling back, and the "\<type>" denotes where the callback is coming from (bash script, golang binary, vimrc) which is used for logging purposes.
+ - `'/<ip>/<typ>' or '/api/callback/<ip>/<typ>'` - these are the endpoints the clients will hit in order to receive their commands.  The former is preferred, as the latter will soon be phased out.  The "\<ip>" is the ip of the client that's calling back, and the "\<type>" denotes where the callback is coming from (bash script, golang binary, vimrc) which is used for logging purposes.
   - `'/api/commander/push'` - this is the endpoint that the commander script/CLI will send commands to.  It accepts a JSON POST that contains the target hosts and commands to be executed.
   - `'/api/commander/calls'` - this is an endpoint that serves a log.  It's returns the log that tracks all client callbacks.  Any time a client hits one of the callback endpoints, an entry is made containing "Time | IP | Type", this endpoint returns all entires
   - `'/api/commander/tasks'` - this is the other endpoint that serves a log.  Any time a command is pushed to the server, an entry is added to the task log containing "Time | Targets | Tasks", this endpoint returns all entires.  
