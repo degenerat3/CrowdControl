@@ -41,6 +41,5 @@ There is currently only support for Linux clients, although Windows endpoints ha
 
 ## Future Work:
  - Windows endpoints have been created, we need to write some clients that will use cmd and/or PowerShell (preferably PowerShell).
- - Add a function to `mace.py` that can read hosts from a file, so the arguments would be:  
- `th: targets.txt: echo hello`, where 'targets.txt' would contain a newline separated list of IP addresses.
+ 
  - Write a stager script that will pull a client script/binary/whatever, set it up as a scheduled task/service/whatever.  Once this stager script is hosted on the server (must make a new stager endpoint), hosts can be added to the control infrastucture by simply invoking a web request and piping the script into bash/PowerShell.
