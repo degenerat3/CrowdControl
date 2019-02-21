@@ -24,6 +24,18 @@ Example:                 t: 1.1.1.1 2.2.2.2 host3: echo hi"
 ```  
 'New task' will run the given commands on the specified hosts.  'New task script' will execute the given script on the specified hosts.  'Show recent hosts' will list all hosts that have called back in the last 10 minutes, and the 'show log' options will display the specified log to the user.  
 
+'New task' and 'New task script' both support "groups." you can define a group by creating a file with the following format:  
+```
+8.8.8.8
+1.2.3.4
+10.100.6.9
+```
+The file must be in exactly the format shown above, with each ip on it's own line and no other data in the file.  Once you have the group created, for example lets say we have the `web` group file, we can execute commands like this:  
+`t: web: echo hi`  
+or like this:  
+`ts: web: script.sh`  
+This will execute the given command or script on every IP listed in the group file.  Group files don't need to be in any specific place, but it's recommended to put them in their own "groups" directory inside the commander directory for easy reading.
+
 ## Clients
 There is currently only support for Linux clients, although Windows endpoints have been created, so it's a WIP.  The client script can be anything from a golang binary, a python or bash script, etc, as long as it can invoke a web request.  The format is very simple, simply send a GET request to `serverIP/\<ip>\<type>` and the return will be the commands that need to be executed.  
 
