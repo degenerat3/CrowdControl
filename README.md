@@ -37,7 +37,7 @@ or like this:
 This will execute the given command or script on every IP listed in the group file.  Group files don't need to be in any specific place, but it's recommended to put them in their own "groups" directory inside the commander directory for easy reading.
 
 ## Clients
-There is currently only support for Linux clients, although Windows endpoints have been created, so it's a WIP.  The client script can be anything from a golang binary, a python or bash script, etc, as long as it can invoke a web request.  The format is very simple, simply send a GET request to `serverIP/\<ip>\<type>` and the return will be the commands that need to be executed.  
+There is currently only support for Linux clients, although Windows endpoints have been created, so it's a WIP.  The client script can be anything from a golang binary, a python or bash script, etc, as long as it can invoke a web request.  The format is very simple, simply send a GET request to `serverIP/<ip>/<type>` and the return will be the commands that need to be executed.  
 
 ## Future Work:
  - Windows endpoints have been created, we need to write some clients that will use cmd and/or PowerShell (preferably PowerShell).
