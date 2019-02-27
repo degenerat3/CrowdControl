@@ -39,6 +39,16 @@ This will execute the given command or script on every IP listed in the group fi
 ## Clients
 There is currently only support for Linux clients, although Windows endpoints have been created, so it's a WIP.  The client script can be anything from a golang binary, a python or bash script, etc, as long as it can invoke a web request.  The format is very simple, simply send a GET request to `serverIP/<ip>/<type>` and the return will be the commands that need to be executed.  
 
+ ## Install and Configuration
+ #### Server
+The docker image can be built from the "server" directory by using the following command:  
+`sudo docker build -t cc:latest .`  
+once the build is finished, it can be run with the following:  
+`sudo docker run -d -p 5000:5000 cc`  
+The flask server is now accessible via port 5000  
+#### Commander
+In the `commander.py` file, the server variable needs to be set to the ip of the flask server.
+
 ## Future Work:
  - Windows endpoints have been created, we need to write some clients that will use cmd and/or PowerShell (preferably PowerShell).
  
