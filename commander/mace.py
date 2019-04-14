@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import os
 import requests
@@ -24,7 +25,7 @@ def new_task(args):
                     h = h.rstrip()
                     new.append(h)
                 hosts = new
-        else: 
+        else:
             hosts = ips.replace(",","").strip().split()
         command = command.strip()
         if not hosts or not command:
@@ -39,7 +40,7 @@ def new_task(args):
             # just use the actual command
             cmd = command
             print("Command: " + command)
-        
+
         header = {'Content-type': 'application/json'}
         data = {"hosts": "|".join(hosts), "commands": cmd}
         request = requests.post(server + "/api/commander/push", headers=header, data=json.dumps(data))
@@ -127,7 +128,7 @@ if __name__ == "__main__":
     server = os.environ.get("CC_SERVER", "http://0.0.0.0:5000")
     # requests doesnt like it when there isnt a protocol
     if not server.startswith("http://") and not server.startswith("https://"):
-        server = "http://" + server 
+        server = "http://" + server
     # Remove trailing /
     server = server.rstrip('/')
 
