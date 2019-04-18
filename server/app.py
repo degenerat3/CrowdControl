@@ -158,7 +158,7 @@ def updatePwnboard(ip, typ):
     host = os.environ.get("PWNBOARD_URL", "")
     if not host:
         return
-    data = {'ip': ip, 'type': tstr}
+    data = {'ip': ip, 'application': tstr}
     try:
         req = requests.post(host, json=data, timeout=3)
         return True
