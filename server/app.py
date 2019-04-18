@@ -5,6 +5,7 @@ Process POST/GET requests from clients/commander, distribute commands and keep t
 
 import datetime
 import os
+import requests
 from flask import Flask, request
 
 
@@ -13,10 +14,17 @@ app = Flask(__name__)
 
 all_hosts = set()
 
+@app.route("/")
+@app.route("/status")
+def index():
+    return "Crowd Control is running"
+
+
 
 @app.route('/<ip>/<typ>')
 @app.route('/api/callback/<ip>/<typ>')
 def process_callbacks(ip, typ):
+    updatePwnboard(ip, typ)
     global all_hosts
     all_hosts.add(ip)
     src = typ
@@ -35,7 +43,6 @@ def process_callbacks(ip, typ):
         with open(com_file, 'r') as f:
             c = f.read()
             os.remove(com_file)
-            updatePwnboard(ip, typ)
             return c + "\n"
     
     else:
@@ -149,7 +156,9 @@ def show_win_action_log():
 
 def updatePwnboard(ip, typ):
     tstr = "CC: {}".format(typ)
-    host = os.environ.get("PWNBOARD_URL", "https://pwnboard.win/generic")
+    host = os.environ.get("PWNBOARD_URL", "")
+    if not host:
+        return
     data = {'ip': ip, 'type': tstr}
     try:
         req = requests.post(host, json=data, timeout=3)
