@@ -14,11 +14,10 @@ app = Flask(__name__)
 
 all_hosts = set()
 
-@app.route("/")
-@app.route("/status")
-def index():
+@app.route('/')
+@app.route('/status')
+def status():
     return "Crowd Control is running"
-
 
 
 @app.route('/<ip>/<typ>')
@@ -171,7 +170,13 @@ def updatePwnboard(ip, typ):
 
 if __name__ == '__main__':
     host = os.environ.get("FLASK_HOST", "0.0.0.0")
-    port = os.environ.get("FLASK_PORT", "5000")
-    app.run(debug=True, host='0.0.0.0')
+    try:
+        port = os.environ.get("FLASK_PORT", "5000")
+        port = int(port)
+    except ValueError:
+        port = 5000
+    debug = os.environ.get("FLASK_DEBUG", "False")
+    debug = debug.lower().strip() in ["true", "yes", "1", "t"]
+    app.run(debug=debug, host=host, port=port)
 
 
