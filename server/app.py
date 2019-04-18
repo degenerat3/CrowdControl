@@ -154,11 +154,12 @@ def show_win_action_log():
 
 
 def updatePwnboard(ip, typ):
-    tstr = "CC: {}".format(typ)
+    tstr = "Crowd Control"
     host = os.environ.get("PWNBOARD_URL", "")
+    msg = "Crowd Control received a beacon from " + typ
     if not host:
         return
-    data = {'ip': ip, 'application': tstr}
+    data = {'ip': ip, 'application': tstr, 'message': msg}
     try:
         req = requests.post(host, json=data, timeout=3)
         return True
