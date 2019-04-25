@@ -1,4 +1,4 @@
-# Crowd_Control
+# CrowdControl
 This project is a C2 that utilizes web requests to deliver commands.  This repo contains the server/client/controller.  The server is a docker container which runs a flask app, the controller is a python script which allows users to push commands to the server, and the client(s) are a series of golang programs and bash scripts that will invoke the proper web request to pull commands, then execute them.  
 
 ## Server
