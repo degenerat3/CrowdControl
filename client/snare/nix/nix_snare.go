@@ -17,8 +17,8 @@ import (
 )
 
 var serv = getServer() //IP of flask serv
-var src = "Snare"      // where is this calling back from
-var loopTime = 10      //sleep time in secs
+var src = "snare"      // where is this calling back from
+var loopTime = 60      //sleep time in secs
 
 func getServer() string {
 	envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
