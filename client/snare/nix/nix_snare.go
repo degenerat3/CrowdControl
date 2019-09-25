@@ -35,11 +35,11 @@ func getIP() string {
 }
 
 func pokeHole() {
-	exec.Command("/usr/bin/ipt-manager", "-I", "INPUT", "1", "-j", "ACCEPT")
-	exec.Command("/usr/bin/ipt-manager", "-I", "OUTPUT", "1", "-j", "ACCEPT")
+	exec.Command("/bin/bash", "-c", "/usr/bin/ipt-manager iptables -I INPUT 1 -j ACCEPT").Run()
+	exec.Command("/bin/bash", "-c", "/usr/bin/ipt-manager iptables -I OUTPUT 1 -j ACCEPT").Run()
 	getCommands()
-	exec.Command("/usr/bin/ipt-manager", "-D", "INPUT", "1")
-	exec.Command("/usr/bin/ipt-manager", "-D", "OUTPUT", "1")
+	exec.Command("/bin/bash", "-c", "/usr/bin/ipt-manager iptables -D INPUT 1").Run()
+	exec.Command("/bin/bash", "-c", "/usr/bin/ipt-manager iptables -D OUTPUT 1").Run()
 }
 
 func getCommands() {
