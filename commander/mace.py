@@ -6,6 +6,13 @@ import datetime
 import json
 
 
+def checkHostCount(count):
+    if count >= 15:
+        print("That group's pretty big, this seems like a dangerous action to run.")
+        print("You should use a smaller group.")
+        exit()
+    return
+
 def new_task(args):
     '''Create a new task and run it on the given hosts
     Args:
@@ -21,9 +28,12 @@ def new_task(args):
             with open(ips.strip()) as ipf:
                 new = []
                 hs = ipf.readlines()
+                hostcount = 0
                 for h in hs:
                     h = h.rstrip()
                     new.append(h)
+                    hostcount += 1
+                checkHostCount(hostcount)
                 hosts = new
         else:
             hosts = ips.replace(",","").strip().split()
