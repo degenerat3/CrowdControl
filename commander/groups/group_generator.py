@@ -1,8 +1,8 @@
 # generate group files given IPs and team numbers
 
-groupname = "cloud"
-hosts = ["10.X.2.2", "10.X.2.3", "10.X.2.5"]
-teams = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+groupname = "team15"
+hosts = ["10.X.1.10", "10.X.1.20", "10.X.1.30", "10.X.2.2", "10.X.2.3", "10.X.2.5"]
+teams = [15]
 
 ips = []
 
